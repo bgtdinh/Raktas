@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: false}));
 app.use(express.json());
 
 app.post('/register', controller.handleNewUser);
+app.post('/login', controller.handleLogin);
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
