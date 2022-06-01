@@ -3,21 +3,9 @@ const user = require('./model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// app.get('/',  (req, res) => {
-//   user.findAll({
-//     where: {
-//       username: 'test2'
-//     }
-//   })
-//     .then( (response) => {
-
-//       console.log(response[0]?.dataValues?.username);
-//       res.sendStatus(201);
-//     })
-//     .catch( (err) => {
-//       console.error(err);
-//     });
-// });
+const protectedRoute = (req, res) => {
+  res.status(201).send('successfully accessed protected');
+}
 
 const handleNewUser = async (req, res) => {
   const { username, password } = req.body;
@@ -45,30 +33,7 @@ const handleNewUser = async (req, res) => {
   } catch (err) {
     res.status(500).json({ 'message': err.message});
   }
-
-
 }
-
-
-// const handleNewUser = async (req, res) => {
-//   const { username, password } = req.body;
-//   if(!username || !password) return res.status(400).json({ 'message': 'Username and password are required'});
-
-
-//   const response = await model.getUser(username);
-//   const responseUsername = response?.rows[0]?.username;
-//   if(responseUsername) return res.sendStatus(409);
-
-//   try {
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     const addUser = await model.addUser(username, hashedPassword);
-//     res.status(201).json({ 'sucess': `New user ${username} created!`});
-//   } catch (err) {
-//     res.status(500).json({ 'message': err.message});
-//   }
-
-
-// }
 
 const handleLogin = async (req, res) => {
   const { username, password } = req.body;
@@ -99,12 +64,58 @@ const handleLogin = async (req, res) => {
       process.env.REFRESH_TOKEN_SECRET,
       {expiresIn: '1d'}
     );
-    res.json({'success': `User ${username} is logged in`});
+    res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000});
+    res.json({ accessToken});
   } else {
     res.sendStatus(401);
   }
 
 }
+
+
+module.exports = {
+  handleNewUser,
+  handleLogin,
+  protectedRoute
+}
+
+
+// app.get('/',  (req, res) => {
+//   user.findAll({
+//     where: {
+//       username: 'test2'
+//     }
+//   })
+//     .then( (response) => {
+
+//       console.log(response[0]?.dataValues?.username);
+//       res.sendStatus(201);
+//     })
+//     .catch( (err) => {
+//       console.error(err);
+//     });
+// });
+
+
+// const handleNewUser = async (req, res) => {
+//   const { username, password } = req.body;
+//   if(!username || !password) return res.status(400).json({ 'message': 'Username and password are required'});
+
+
+//   const response = await model.getUser(username);
+//   const responseUsername = response?.rows[0]?.username;
+//   if(responseUsername) return res.sendStatus(409);
+
+//   try {
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     const addUser = await model.addUser(username, hashedPassword);
+//     res.status(201).json({ 'sucess': `New user ${username} created!`});
+//   } catch (err) {
+//     res.status(500).json({ 'message': err.message});
+//   }
+
+
+// }
 
 // const handleLogin = async (req, res) => {
 //   const { username, password } = req.body;
@@ -133,11 +144,3 @@ const handleLogin = async (req, res) => {
 //     res.sendStatus(401);
 //   }
 // }
-
-
-
-
-module.exports = {
-  handleNewUser,
-  handleLogin
-}
