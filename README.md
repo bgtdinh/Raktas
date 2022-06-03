@@ -1,10 +1,3 @@
 # node-authentication-backend
 
-node
-require('crypto').randomBytes(64).toString('hex')
-
-create table users (
-  id serial primary key,
-  username varchar(100) not null,
-  password varchar(100) not null
-)
+Protecting API routes using authentication strategy with json web tokens,  (access tokens, refresh tokens), httponly cookies and verification of user/passwords with a saved hashed/salted password in a database
