@@ -4,10 +4,6 @@ const user = require('./model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const protectedRoute = (req, res) => {
-  res.status(201).send('successfully accessed protected');
-}
-
 const handleNewUser = async (req, res) => {
   const { username, password } = req.body;
   if(!username || !password) return res.status(400).json({ 'message': 'Username and password are required'});
@@ -76,8 +72,7 @@ const handleLogin = async (req, res) => {
 
 module.exports = {
   handleNewUser,
-  handleLogin,
-  protectedRoute
+  handleLogin
 }
 
 

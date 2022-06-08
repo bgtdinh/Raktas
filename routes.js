@@ -11,8 +11,10 @@ router.route('/employees')
 //   .put()
 //   .delete()
 
-// router.route('/employees/:id')
-//   .get()
+router.route('/employees/:id')
+  .get(employeeController.getEmployeeById)
+  .put(employeeController.editEmployee)
+  .delete(employeeController.deleteEmployee)
 
 router.route('/register')
   .post(controller.handleNewUser)
