@@ -23,5 +23,6 @@ return db.authenticate()
 // create table users (
 //   id serial primary key,
 //   username varchar(100) not null,
-//   password varchar(100) not null
+//   password varchar(100) not null,
+//   refreshtoken varchar(200) not null
 // )

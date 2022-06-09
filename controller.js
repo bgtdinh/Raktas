@@ -23,6 +23,7 @@ const handleNewUser = async (req, res) => {
     user.create({
       username: username,
       password: hashedPassword,
+      refreshtoken: ''
     });
 
 
@@ -61,6 +62,20 @@ const handleLogin = async (req, res) => {
       process.env.REFRESH_TOKEN_SECRET,
       {expiresIn: '1d'}
     );
+    //save refreshtoken in db
+    try {
+      await user.update({
+        refreshtoken: refreshToken
+      }, {
+        where: {
+          username: username
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+
     res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000});
     res.json({ accessToken});
   } else {

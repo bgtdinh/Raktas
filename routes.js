@@ -2,8 +2,11 @@ const express = require('express');
 const router = express.Router();
 const controller = require('./controller');
 const employeeController = require('./employeeController');
+const refreshController = require('./refreshController');
 const verifyJWT = require('./middleware');
 
+router.route('/refresh')
+  .get(refreshController.handleRefreshToken);
 
 router.route('/employees')
   .get(employeeController.getAllEmployees)
