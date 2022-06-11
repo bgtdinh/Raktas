@@ -2,7 +2,7 @@ const {Sequelize, DataTypes} = require("sequelize");
 
 const db = require('./database');
 
-const User = db.define("employees", {
+const Employee = db.define("employees", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -21,4 +21,4 @@ const User = db.define("employees", {
   freezeTableName:true,
   timestamps: false});
 
-module.exports = User;
+module.exports = Employee;

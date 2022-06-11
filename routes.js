@@ -9,15 +9,15 @@ router.route('/refresh')
   .get(refreshController.handleRefreshToken);
 
 router.route('/employees')
-  .get(verifyJWT, employeeController.getAllEmployees)
-  .post(verifyJWT, employeeController.addEmployee)
+  .get( employeeController.getAllEmployees)
+  .post( employeeController.addEmployee)
 //   .put()
 //   .delete()
 
 router.route('/employees/:id')
-  .get(verifyJWT, employeeController.getEmployeeById)
-  .put(verifyJWT, employeeController.editEmployee)
-  .delete(verifyJWT, employeeController.deleteEmployee)
+  .get( employeeController.getEmployeeById)
+  .put( employeeController.editEmployee)
+  .delete( employeeController.deleteEmployee)
 
 router.route('/register')
   .post(controller.handleNewUser)
